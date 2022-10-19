@@ -1,0 +1,19 @@
+{
+  "name": "dulceencanto-backend",
+  "version": "1.0.0",
+  "description": "Proyecto Dulce El Encanto",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cast-llanos/DulceEncanto-Backend.git"
+  },
+  "author": "Grupo6",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cast-llanos/DulceEncanto-Backend/issues"
+  },
+  "homepage": "https://github.com/cast-llanos/DulceEncanto-Backend#readme"
+}
