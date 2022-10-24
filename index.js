@@ -25,4 +25,6 @@ app.get("/", (request, response) =>{
     response.send("API Iniciado");
 })
 
-app.use("/categorias", require("./rutas/CategoriaRutas"))
+app.use("/api/categorias", require("./rutas/CategoriaRutas"))
+
+app.use("/api/productos", require("./rutas/ProductoRutas"))

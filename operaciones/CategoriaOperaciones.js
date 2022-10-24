@@ -29,7 +29,7 @@ CategoriaOperaciones.consultarCategorias = async(require, response) =>{
             response.status(404).send("No hay datos");
         }
     } catch (error) {
-        response.status(400).send("Mala Petición");
+        response.status(400).send("Mala Petición: " + error);
     }
 }
 
@@ -50,7 +50,7 @@ CategoriaOperaciones.consultarCategoria = async(require, response) =>{
     
 }
 
-CategoriaOperaciones.modificarCategorias = async(require, response) =>{
+CategoriaOperaciones.modificarCategoria = async(require, response) =>{
     
 }
 
