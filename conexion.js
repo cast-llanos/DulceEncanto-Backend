@@ -3,7 +3,7 @@ const { default: mongoose } = require("mongoose");
 const username = "admin";
 const password = "admin";
 const database = "DulceEncanto";
-const URI = "mongodb+srv://"+username+":"+password+"@cluster0.zli9urh.mongodb.net/"+database+"?retryWrites=true&w=majority";
+const URI = "mongodb://"+username+":"+password+@ac-bjc87ss-shard-00-00.5mg0ozd.mongodb.net:27017,ac-bjc87ss-shard-00-01.5mg0ozd.mongodb.net:27017,ac-bjc87ss-shard-00-02.5mg0ozd.mongodb.net:27017/+database+?ssl=true&replicaSet=atlas-gaweut-shard-0&authSource=admin&retryWrites=true&w=majority";
 
 const conectar = () =>{
     try {
