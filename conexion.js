@@ -10,6 +10,7 @@ const conectar = () =>{
         mongoose.connect(URI)
         console.log("Atlas está conectado")
         
+        
     } catch (error) {
         console.log("Error en la conexion.."+error)
     }
