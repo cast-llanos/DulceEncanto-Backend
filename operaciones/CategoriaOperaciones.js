@@ -18,17 +18,18 @@ CategoriaOperaciones.crearCategoria = async(require, response) => {
 
 }
 
-// Consulta por Nombre o todas
+// Consultar por queries
 CategoriaOperaciones.consultarCategorias = async(require, response) =>{
     
     try {
         const filtro = require.query;
         let listaCategorias;
 
-        if (filtro.nombre != null) {
+        if (filtro.q != null) {
             listaCategorias = await CategoriaModelo.find({
                     "$or":[
-                        {"nombre":{$regex: filtro.nombre, $options: "i"}}
+                        {"nombre":{$regex: filtro.q, $options: "i"}},
+                        {"habilitado":{$regex: filtro.q, $options: "i"}}
                     ]
                 });
         } else {
@@ -75,7 +76,7 @@ CategoriaOperaciones.modificarCategoria = async(require, response) =>{
             nombre: body.nombre,
             habilitado: body.habilitado
         }
-        console.log(categoria);
+        //console.log(categoria);
 
         const categoriaActualizada = await CategoriaModelo.findByIdAndUpdate(id, categoria, { new: true });
 

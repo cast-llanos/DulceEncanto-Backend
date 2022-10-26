@@ -73,7 +73,7 @@ ProductoOperaciones.modificarProducto = async(require, response) =>{
             precio: body.precio,
             keywords: body.keywords
         }
-        console.log(producto);
+        //console.log(producto);
 
         const productoActualizado = await ProductoModelo.findByIdAndUpdate(id, producto, { new: true });
 
@@ -93,7 +93,7 @@ ProductoOperaciones.eliminarProducto = async(require, response) =>{
         const id = require.params.id;
 
         const productoConsultado = await ProductoModelo.findById(id);
-        console.log(productoConsultado);
+        //console.log(productoConsultado);
 
         if(productoConsultado != null){
             if (!productoConsultado.disponibilidad) {
