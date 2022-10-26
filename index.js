@@ -1,22 +1,32 @@
-//IMPORTACIONES
-const express=require("express")
-const morgan = require("morgan")
-const cors = require("cors")
-const mongoose = require("./conexion")
+// Importaciones
+const express = require("express");
+const morgan = require("morgan");
+const cors = require("cors");
+const mongoose = require("./connection")
 
-//CONFIGURACIONES
-const env = process.env;// captura el puerto
-const port = env.PORT || 8000;
+// Configuraciones
+const env = process.env; //Revisar la información de la máquina
+const port = env.port || 8000;
 const app = express();
-app.use(morgan("dev"));//Monitor morgan para ver codigos de respuesta utiliza formato "dev(desarrollador)"
-app.use(cors());
+app.use(express.json());
+//Morgan es un monitor de performance: "dev" -> desarrollo
+app.use(morgan("dev"));
+// Cors habilita conexiones externas
+app.use(cors()); 
 
-//ARRANQUE
-app.listen(port,()=>{
-    console.log("API iniciado en el puerto "+port);
+// Arranque
+app.listen(port, () => {
+    console.log("API iniciado en el puerto: " + port);
 })
 
-//RUTAS GET
-app.get("/", (req, res)=>{
-    res.send("API iniciado......");
+// RUTAS
+//     Ruta  Parámetros del método get
+app.get("/", (request, response) =>{
+    response.send("API Iniciado");
 })
+
+// Enrutamiento para objeto Categoría
+app.use("/api/categorias", require("./rutas/CategoriaRutas"))
+
+// Enrutamiento para objeto Producto
+app.use("/api/productos", require("./rutas/ProductoRutas"))
