@@ -71,7 +71,7 @@ ProductoOperaciones.modificarProducto = async(require, response) =>{
         const producto = {
             nombre: body.nombre,
             precio: body.precio,
-            precio: body.keywords
+            keywords: body.keywords
         }
         console.log(producto);
 
@@ -91,14 +91,27 @@ ProductoOperaciones.eliminarProducto = async(require, response) =>{
 
     try {
         const id = require.params.id;
-        const productoBorrado = await ProductoModelo.findByIdAndDelete(id);
 
-        if(productoBorrado != null){
-            response.status(200).send(productoBorrado);
+        const productoConsultado = await ProductoModelo.findById(id);
+        console.log(productoConsultado);
+
+        if(productoConsultado != null){
+            if (!productoConsultado.disponibilidad) {
+
+                const productoBorrado = await ProductoModelo.findByIdAndDelete(id);
+
+                if(productoBorrado != null){
+                    response.status(200).send(productoBorrado);
+                }else{
+                    response.status(404).send("No hay datos");
+                }
+                
+            } else {
+                response.status(400).send("Producto a eliminar está habilitado")
+            }
         }else{
             response.status(404).send("No hay datos");
         }
-
     } catch (error) {
         response.status(400).send("Mala petición. "+ error);
     }
