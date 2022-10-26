@@ -25,6 +25,8 @@ app.get("/", (request, response) =>{
     response.send("API Iniciado");
 })
 
+// Enrutamiento para objeto Categoría
 app.use("/api/categorias", require("./rutas/CategoriaRutas"))
 
+// Enrutamiento para objeto Producto
 app.use("/api/productos", require("./rutas/ProductoRutas"))

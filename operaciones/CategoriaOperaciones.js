@@ -18,21 +18,35 @@ CategoriaOperaciones.crearCategoria = async(require, response) => {
 
 }
 
+// Consulta por Nombre o todas
 CategoriaOperaciones.consultarCategorias = async(require, response) =>{
     
     try {
-        const listaCategorias = await CategoriaModelo.find();
+        const filtro = require.query;
+        let listaCategorias;
+
+        if (filtro.nombre != null) {
+            listaCategorias = await CategoriaModelo.find({
+                    "$or":[
+                        {"nombre":{$regex: filtro.nombre, $options: "i"}}
+                    ]
+                });
+        } else {
+            listaCategorias = await CategoriaModelo.find();
+        }
 
         if(listaCategorias.length > 0){
             response.status(200).send(listaCategorias);
         }else{
             response.status(404).send("No hay datos");
         }
+
     } catch (error) {
         response.status(400).send("Mala Petición: " + error);
     }
 }
 
+// Consulta por Id
 CategoriaOperaciones.consultarCategoria = async(require, response) =>{
 
     try {
@@ -44,6 +58,7 @@ CategoriaOperaciones.consultarCategoria = async(require, response) =>{
         }else{
             response.status(404).send("No hay datos");
         }
+
     } catch (error) {
         response.status(400).send("Mala Petición: " + error);
     }
@@ -51,7 +66,44 @@ CategoriaOperaciones.consultarCategoria = async(require, response) =>{
 }
 
 CategoriaOperaciones.modificarCategoria = async(require, response) =>{
-    
+
+    try {
+        const id = require.params.id;
+        const body = require.body;
+
+        const categoria = {
+            nombre: body.nombre,
+            habilitado: body.habilitado
+        }
+        console.log(categoria);
+
+        const categoriaActualizada = await CategoriaModelo.findByIdAndUpdate(id, categoria, { new: true });
+
+        if(categoriaActualizada != null){
+            response.status(200).send(categoriaActualizada);
+        }else{
+            response.status(404).send("No hay datos");
+        }
+    } catch (error) {
+        response.status(400).send("Mala petición. " + error);
+    }
 }
 
+CategoriaOperaciones.eliminarCategoria = async(require, response) =>{
+
+    try {
+        const id = require.params.id;
+        const categoriaBorrada = await CategoriaModelo.findByIdAndDelete(id);
+
+        if(categoriaBorrada != null){
+            response.status(200).send(categoriaBorrada);
+        }else{
+            response.status(404).send("No hay datos");
+        }
+
+    } catch (error) {
+        response.status(400).send("Mala petición. "+ error);
+    }
+}
+    
 module.exports = CategoriaOperaciones;

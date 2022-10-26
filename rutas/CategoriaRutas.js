@@ -9,4 +9,10 @@ router.get("/:id", CategoriaOperaciones.consultarCategoria);
 // Crear: Método POST
 router.post("/", CategoriaOperaciones.crearCategoria);
 
+//Actualizar: Método PUT
+router.put("/:id", CategoriaOperaciones.modificarCategoria);
+
+//Eliminar: Método DELETE
+router.delete("/:id", CategoriaOperaciones.eliminarCategoria);
+
 module.exports = router;
