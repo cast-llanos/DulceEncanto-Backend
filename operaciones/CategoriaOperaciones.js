@@ -27,13 +27,13 @@ CategoriaOperaciones.consultarCategorias = async(require, response) =>{
 
         if (filtro.q != null) {
             listaCategorias = await CategoriaModelo.find({
-                    "$or":[
-                        {"nombre":{$regex: filtro.q, $options: "i"}},
-                        {"habilitado":{$regex: filtro.q, $options: "i"}}
+                    "$or" : [
+                        {"nombre": {$regex: filtro.q, $options: "i"}},
+                        //{"habilitado": {$regex: filtro.q, $options: "i"}}
                     ]
                 });
         } else {
-            listaCategorias = await CategoriaModelo.find();
+            listaCategorias = await CategoriaModelo.find(filtro);
         }
 
         if(listaCategorias.length > 0){
