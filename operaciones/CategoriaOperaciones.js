@@ -10,7 +10,7 @@ CategoriaOperaciones.crearCategoria = async(require, response) => {
 
         const categoria = new CategoriaModelo(objeto);
         const categoriaGuardada = await categoria.save();
-        response.status(201).send(categoriaGuardada);
+        response.status(200).send(categoriaGuardada);
         
     } catch (error) {
         response.status(400).send("Mala Petición: " + error);
