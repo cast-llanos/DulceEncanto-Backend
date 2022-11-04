@@ -24,14 +24,17 @@ ProductoOperaciones.consultarProductos = async(require, response) =>{
         const filtro = require.query;
         let listaProductos;
 
-        if (filtro.nombre != null) {
+        if (filtro.q != null) {
             listaProductos = await ProductoModelo.find({
                     "$or":[
-                        {"nombre":{$regex: filtro.nombre, $options: "i"}}
+                        {"nombre": {$regex: filtro.q, $options: "i"}},
+                        {"marca": {$regex: filtro.q, $options: "i"}},
+                        {"presentacion": {$regex: filtro.q, $options: "i"}},
+                        {"keywords": {$regex: filtro.q, $options: "i"}}
                     ]
                 });
         } else {
-            listaProductos = await ProductoModelo.find();
+            listaProductos = await ProductoModelo.find(filtro);
         }
 
         if(listaProductos.length > 0){
@@ -71,9 +74,9 @@ ProductoOperaciones.modificarProducto = async(require, response) =>{
         const producto = {
             nombre: body.nombre,
             precio: body.precio,
-            keywords: body.keywords
+            disponibilidad: body.disponibilidad,
         }
-        console.log(producto);
+        //console.log(producto);
 
         const productoActualizado = await ProductoModelo.findByIdAndUpdate(id, producto, { new: true });
 
@@ -93,7 +96,7 @@ ProductoOperaciones.eliminarProducto = async(require, response) =>{
         const id = require.params.id;
 
         const productoConsultado = await ProductoModelo.findById(id);
-        console.log(productoConsultado);
+        //console.log(productoConsultado);
 
         if(productoConsultado != null){
             if (!productoConsultado.disponibilidad) {

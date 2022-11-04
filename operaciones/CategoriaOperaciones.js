@@ -10,7 +10,7 @@ CategoriaOperaciones.crearCategoria = async(require, response) => {
 
         const categoria = new CategoriaModelo(objeto);
         const categoriaGuardada = await categoria.save();
-        response.status(201).send(categoriaGuardada);
+        response.status(200).send(categoriaGuardada);
         
     } catch (error) {
         response.status(400).send("Mala Petición: " + error);
@@ -18,21 +18,22 @@ CategoriaOperaciones.crearCategoria = async(require, response) => {
 
 }
 
-// Consulta por Nombre o todas
+// Consultar por queries
 CategoriaOperaciones.consultarCategorias = async(require, response) =>{
     
     try {
         const filtro = require.query;
         let listaCategorias;
 
-        if (filtro.nombre != null) {
+        if (filtro.q != null) {
             listaCategorias = await CategoriaModelo.find({
-                    "$or":[
-                        {"nombre":{$regex: filtro.nombre, $options: "i"}}
+                    "$or" : [
+                        {"nombre": {$regex: filtro.q, $options: "i"}},
+                        //{"habilitado": {$regex: filtro.q, $options: "i"}}
                     ]
                 });
         } else {
-            listaCategorias = await CategoriaModelo.find();
+            listaCategorias = await CategoriaModelo.find(filtro);
         }
 
         if(listaCategorias.length > 0){
@@ -75,7 +76,7 @@ CategoriaOperaciones.modificarCategoria = async(require, response) =>{
             nombre: body.nombre,
             habilitado: body.habilitado
         }
-        console.log(categoria);
+        //console.log(categoria);
 
         const categoriaActualizada = await CategoriaModelo.findByIdAndUpdate(id, categoria, { new: true });
 
