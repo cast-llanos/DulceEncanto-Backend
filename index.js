@@ -6,7 +6,7 @@ const mongoose = require("./connection")
 
 // Configuraciones
 const env = process.env; //Revisar la información de la máquina
-const port = env.port || 8000;
+const port = env.PORT || 8000;
 const app = express();
 app.use(express.json());
 //Morgan es un monitor de performance: "dev" -> desarrollo
