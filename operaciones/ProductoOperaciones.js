@@ -13,7 +13,9 @@ ProductoOperaciones.crearProducto = async(require, response) => {
         response.status(201).send(productoGuardado);
         
     } catch (error) {
-        response.status(400).send("Mala Petición: " + error);
+
+        if(error.code === 11000) response.status(400).json({tipoError: "Dato Duplicado", dato: error.keyValue});
+        //response.status(400).send("Mala Petición: " + error);
     }
 
 }

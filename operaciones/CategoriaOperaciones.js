@@ -13,7 +13,9 @@ CategoriaOperaciones.crearCategoria = async(require, response) => {
         response.status(200).send(categoriaGuardada);
         
     } catch (error) {
-        response.status(400).send("Mala Petición: " + error);
+        
+        if(error.code === 11000) response.status(400).json({tipoError: "Dato Duplicado", dato: error.keyValue});
+        //response.status(400).send("Mala Petición: " + error);
     }
 
 }
