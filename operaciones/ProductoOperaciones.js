@@ -5,24 +5,25 @@ const ProductoOperaciones = {};
 // Asincrónicos pues deben esperar la conexión a la BD
 // Protocolo HTTP
 ProductoOperaciones.crearProducto = async(require, response) => {
+
     try {
+
         const objeto = require.body;
 
         const producto = new ProductoModelo(objeto);
         const productoGuardado = await producto.save();
         response.status(201).send(productoGuardado);
-        
     } catch (error) {
 
-        if(error.code === 11000) response.status(400).json({tipoError: "Dato Duplicado", dato: error.keyValue});
+        response.status(400).json(error);
         //response.status(400).send("Mala Petición: " + error);
     }
-
 }
 
 ProductoOperaciones.consultarProductos = async(require, response) =>{
     
     try {
+
         const filtro = require.query;
         let listaProductos;
 
@@ -39,12 +40,9 @@ ProductoOperaciones.consultarProductos = async(require, response) =>{
             listaProductos = await ProductoModelo.find(filtro);
         }
 
-        if(listaProductos.length > 0){
-            response.status(200).send(listaProductos);
-        }else{
-            response.status(404).send("No hay datos");
-        }
+        response.status(200).send(listaProductos);
     } catch (error) {
+
         response.status(400).send("Mala Petición: " + error);
     }
 }
@@ -52,6 +50,7 @@ ProductoOperaciones.consultarProductos = async(require, response) =>{
 ProductoOperaciones.consultarProducto = async(require, response) =>{
 
     try {
+
         const id = require.params.id;
         const producto = await ProductoModelo.findById(id);
 
@@ -60,16 +59,16 @@ ProductoOperaciones.consultarProducto = async(require, response) =>{
         }else{
             response.status(404).send("No hay datos");
         }
-
     } catch (error) {
+
         response.status(400).send("Mala Petición: " + error);
     }
-    
 }
 
 ProductoOperaciones.modificarProducto = async(require, response) =>{
 
     try {
+
         const id = require.params.id;
         const body = require.body;
 
@@ -88,6 +87,7 @@ ProductoOperaciones.modificarProducto = async(require, response) =>{
             response.status(404).send("No hay datos");
         }
     } catch (error) {
+
         response.status(400).send("Mala petición. " + error);
     }
 }
@@ -95,6 +95,7 @@ ProductoOperaciones.modificarProducto = async(require, response) =>{
 ProductoOperaciones.eliminarProducto = async(require, response) =>{
 
     try {
+
         const id = require.params.id;
 
         const productoConsultado = await ProductoModelo.findById(id);
@@ -118,6 +119,7 @@ ProductoOperaciones.eliminarProducto = async(require, response) =>{
             response.status(404).send("No hay datos");
         }
     } catch (error) {
+        
         response.status(400).send("Mala petición. "+ error);
     }
 }

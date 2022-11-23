@@ -30,3 +30,6 @@ app.use("/api/categorias", require("./rutas/CategoriaRutas"))
 
 // Enrutamiento para objeto Producto
 app.use("/api/productos", require("./rutas/ProductoRutas"))
+
+// Enrutamiento para objeto Usuario
+app.use("/api/usuarios", require("./rutas/UsuarioRutas"))
