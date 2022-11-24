@@ -6,14 +6,14 @@ const CategoriaOperaciones = {};
 // Protocolo HTTP
 CategoriaOperaciones.crearCategoria = async(require, response) => {
     try {
-        const objeto = require.body;
 
+        const objeto = require.body;
         const categoria = new CategoriaModelo(objeto);
         const categoriaGuardada = await categoria.save();
-        response.status(200).send(categoriaGuardada);
-        
+        response.status(201).send(categoriaGuardada);
     } catch (error) {
-        response.status(400).send("Mala Petición: " + error);
+
+        response.status(400).json(error);
     }
 
 }
@@ -22,6 +22,7 @@ CategoriaOperaciones.crearCategoria = async(require, response) => {
 CategoriaOperaciones.consultarCategorias = async(require, response) =>{
     
     try {
+
         const filtro = require.query;
         let listaCategorias;
 
@@ -29,21 +30,16 @@ CategoriaOperaciones.consultarCategorias = async(require, response) =>{
             listaCategorias = await CategoriaModelo.find({
                     "$or" : [
                         {"nombre": {$regex: filtro.q, $options: "i"}},
-                        //{"habilitado": {$regex: filtro.q, $options: "i"}}
                     ]
                 });
         } else {
             listaCategorias = await CategoriaModelo.find(filtro);
         }
 
-        if(listaCategorias.length > 0){
-            response.status(200).send(listaCategorias);
-        }else{
-            response.status(404).send("No hay datos");
-        }
-
+        response.status(200).send(listaCategorias);
     } catch (error) {
-        response.status(400).send("Mala Petición: " + error);
+
+        response.status(400).json(error);
     }
 }
 
@@ -61,7 +57,8 @@ CategoriaOperaciones.consultarCategoria = async(require, response) =>{
         }
 
     } catch (error) {
-        response.status(400).send("Mala Petición: " + error);
+        //response.status(400).send("Mala Petición: " + error);
+        response.status(400).json(error);
     }
     
 }
@@ -69,6 +66,7 @@ CategoriaOperaciones.consultarCategoria = async(require, response) =>{
 CategoriaOperaciones.modificarCategoria = async(require, response) =>{
 
     try {
+
         const id = require.params.id;
         const body = require.body;
 
@@ -76,7 +74,6 @@ CategoriaOperaciones.modificarCategoria = async(require, response) =>{
             nombre: body.nombre,
             habilitado: body.habilitado
         }
-        //console.log(categoria);
 
         const categoriaActualizada = await CategoriaModelo.findByIdAndUpdate(id, categoria, { new: true });
 
@@ -86,6 +83,7 @@ CategoriaOperaciones.modificarCategoria = async(require, response) =>{
             response.status(404).send("No hay datos");
         }
     } catch (error) {
+
         response.status(400).send("Mala petición. " + error);
     }
 }
@@ -93,6 +91,7 @@ CategoriaOperaciones.modificarCategoria = async(require, response) =>{
 CategoriaOperaciones.eliminarCategoria = async(require, response) =>{
 
     try {
+
         const id = require.params.id;
         const categoriaBorrada = await CategoriaModelo.findByIdAndDelete(id);
 
@@ -101,8 +100,8 @@ CategoriaOperaciones.eliminarCategoria = async(require, response) =>{
         }else{
             response.status(404).send("No hay datos");
         }
-
     } catch (error) {
+        
         response.status(400).send("Mala petición. "+ error);
     }
 }
